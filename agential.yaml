@@ -1,0 +1,25 @@
+agents:
+  document_retrieval:
+    module: retrieval
+    class: DocumentRetrievalAgent
+  response_generation:
+    module: generation
+    class: ResponseGenerationAgent
+  refinement:
+    module: refine
+    class: RefinementAgent
+  validation:
+    module: validate
+    class: ValidationAgent
+
+task_scheduling:
+  enabled: true
+  schedules:
+    - name: refresh_index
+      agent: document_retrieval
+      method: refresh_index
+      cron: "0 2 * * *"  # Daily at 2 AM
+    - name: retrain_models
+      agent: response_generation
+      method: retrain_model
+      cron: "0 3 * * *"  # Daily at 3 AM
